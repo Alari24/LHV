@@ -1,7 +1,6 @@
 package stepdefinitions.lease;
 
 import client.BrowserClient;
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -56,5 +55,4 @@ public class LeaseApplicationFirstPageSteps {
     public void userClosesOpenBrowser() {
         client.closeBrowser();
     }
-    //for commit
 }
