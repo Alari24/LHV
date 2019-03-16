@@ -10,6 +10,9 @@ To run tests:
         ** This report can be found under build -> reports -> allure-report -> index.html
 3) Windows has been configured to have included Firefox, Chrome and Internet Explorer webdrivers in its PATH system variable
    * This can be checked from Environment Variables in Windows
+      ** Latest chromedriver: http://chromedriver.chromium.org/
+      ** Latest geckodriver: https://github.com/mozilla/geckodriver/releases
+      ** Latest iedriver: https://www.seleniumhq.org/download/  (Get the 32bit one)
 
 For additional information you can contact:
 Project contributor Alari Alev at alev.alari@gmail.com
