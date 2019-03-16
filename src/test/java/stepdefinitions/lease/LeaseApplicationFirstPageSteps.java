@@ -13,6 +13,7 @@ public class LeaseApplicationFirstPageSteps {
     private String secondRadioButton;
     private String iframeName = "iframe";
     private String language;
+    private String dropDownValue;
 
     @Given("^user is on LHV lease application page for (.+) and (.+)$")
     public void userHasOpenedBrowserOnTheDesiredPage(String browserType, String language) {
@@ -95,6 +96,24 @@ public class LeaseApplicationFirstPageSteps {
         client.switchToDefaultContent();
     }
 
+    @When("user checks dropdown for lease period (.+)")
+    public void userOpenDropdownForLeasePeriodYears(String period) {
+        client.switchToDesiredFrame(iframeName);
+        String elementId;
+        switch (period) {
+            case "year":
+                elementId = "duration_years";
+                break;
+            case "month":
+                elementId = "duration_months";
+                break;
+            default:
+                throw new IllegalArgumentException("No such period as " + period);
+        }
+        client.checkDropdownValues(elementId, period);
+        client.switchToDefaultContent();
+    }
+
     @Then("^desired questions first radio button is checked$")
     public void firstQuestionsFirstRadioButtonIsChecked() {
         client.switchToDesiredFrame(iframeName);
@@ -160,6 +179,77 @@ public class LeaseApplicationFirstPageSteps {
         client.switchToDefaultContent();
     }
 
+    @Then("label for lease period (.+) is correct for (.+)")
+    public void labelForLeasePeriodYearIsCorrect(String period, String multitude) {
+        client.switchToDesiredFrame(iframeName);
+        String element;
+        String desiredText;
+        switch (period) {
+            case "year":
+                element = "//*[@id=\"form1\"]/table/tbody[3]/tr[1]/td/span/span[2]";
+                switch (language) {
+                    case "et":
+                        desiredText = "aasta";
+                        if (multitude.equals("multiple")) {
+                            desiredText = "aastat";
+                        }
+                        break;
+                    case "en":
+                        desiredText = "year";
+                        if (multitude.equals("multiple")) {
+                            desiredText = "years";
+                        }
+                        break;
+                    case "ru":
+                        desiredText = "год";
+                        if (multitude.equals("multiple")) {
+                            if (dropDownValue.equals("0") || dropDownValue.equals("5") || dropDownValue.equals("6")) {
+                                desiredText = "лет";
+                            } else {
+                                desiredText = "года";
+                            }
+                        }
+                        break;
+                    default:
+                        throw new IllegalArgumentException("No such language as " + language + " available");
+                }
+                break;
+            case "month":
+                element = "//*[@id=\"period-months\"]/td/span/span[2]";
+                switch (language) {
+                    case "et":
+                        desiredText = "kuu";
+                        if (multitude.equals("multiple")) {
+                            desiredText = "kuud";
+                        }
+                        break;
+                    case "en":
+                        desiredText = "month";
+                        if (multitude.equals("multiple")) {
+                            desiredText = "months";
+                        }
+                        break;
+                    case "ru":
+                        desiredText = "месяц";
+                        if (multitude.equals("multiple")) {
+                            if (dropDownValue.equals("2") || dropDownValue.equals("3") || dropDownValue.equals("4")) {
+                                desiredText = "месяца";
+                            } else {
+                                desiredText = "месяцев";
+                            }
+                        }
+                        break;
+                    default:
+                        throw new IllegalArgumentException("No such language as " + language + " available");
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("No such period as " + period);
+        }
+        client.checkGrammar(element, desiredText);
+        client.switchToDefaultContent();
+    }
+
     @And("^desired questions second radio button is checked$")
     public void firstQuestionsSecondRadioButtonIsChecked() {
         client.switchToDesiredFrame(iframeName);
@@ -177,6 +267,7 @@ public class LeaseApplicationFirstPageSteps {
     @And("user selects (.+) for lease period (.+)")
     public void selectsValueForLeasePeriod(String value, String period) {
         client.switchToDesiredFrame(iframeName);
+        dropDownValue = value;
         switch (period) {
             case "year":
                 period = "duration_years";
@@ -267,11 +358,15 @@ public class LeaseApplicationFirstPageSteps {
         client.switchToDefaultContent();
     }
 
+    @And("months dropdown is not visible")
+    public void monthsDropdownIsNotVisible() {
+        client.switchToDesiredFrame(iframeName);
+        client.checkIfElementIsHidden("period-months");
+        client.switchToDefaultContent();
+    }
+
     @After
     public void userClosesOpenBrowser() {
         client.closeBrowser();
     }
-
-
-
 }

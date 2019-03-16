@@ -1,3 +1,4 @@
+#Test descriptions can be found in manual tests written into Excel
 @Full
 Feature: Lease application first page
 
@@ -135,7 +136,33 @@ Feature: Lease application first page
     When user enters 200 into residual value field
     Then correct value is displayed in residual value percentage field
     Examples:
-      | browser | language |
+      | browser  | language |
+      | firefox  | et       |
+      | firefox  | en       |
+      | firefox  | ru       |
+      | chrome   | et       |
+      | chrome   | en       |
+      | chrome   | ru       |
+      | explorer | et       |
+      | explorer | en       |
+      | explorer | ru       |
+
+  Scenario Outline: Check if dropdowns act correctly
+    Given user is on LHV lease application page for <browser> and <language>
+    Then user checks dropdown for lease period year
+    When user selects 1 for lease period year
+    Then label for lease period year is correct for singular
+    When user selects 6 for lease period year
+    Then label for lease period year is correct for multiple
+    And months dropdown is not visible
+    When user selects 3 for lease period year
+    Then user checks dropdown for lease period month
+    When user selects 1 for lease period month
+    Then label for lease period month is correct for singular
+    When user selects 10 for lease period month
+    Then label for lease period month is correct for multiple
+    Examples:
+      | browser  | language |
       | firefox  | et       |
       | firefox  | en       |
       | firefox  | ru       |
