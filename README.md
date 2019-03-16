@@ -15,6 +15,5 @@ To run tests:
         - Latest geckodriver: https://github.com/mozilla/geckodriver/releases
         - Latest iedriver: https://www.seleniumhq.org/download/  (Get the 32bit one)
 
-
 For additional information you can contact:
 Project contributor Alari Alev at alev.alari@gmail.com
